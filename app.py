@@ -21,7 +21,7 @@ MESES_N = {1:"Jan",2:"Fev",3:"Mar",4:"Abr",5:"Mai",6:"Jun",
 
 @st.cache_data
 def carregar():
-    df = pd.read_csv("dados/tabnet_10anos.csv", encoding="utf-8-sig")
+    df = pd.read_parquet("dados/tabnet_10anos.parquet")
     df["ano"] = df["ano"].astype(int)
     df["mes"] = df["mes"].astype(int)
     df["aih"] = pd.to_numeric(df["aih"], errors="coerce").fillna(0)
