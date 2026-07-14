@@ -33,6 +33,7 @@ GRUPOS = sorted(df["grupo_cid"].unique().tolist())
 ANOS   = sorted(df["ano"].unique().tolist())
 
 # ── Sidebar ───────────────────────────────────────────────────
+# ── Sidebar ───────────────────────────────────────────────────
 with st.sidebar:
     st.title("⚙️ Configurações")
     st.markdown("---")
@@ -40,14 +41,22 @@ with st.sidebar:
     idx_resp = GRUPOS.index("Respiratório") if "Respiratório" in GRUPOS else 0
     grupo_sel = st.selectbox(
         "Grupo CID-10 principal",
-        options=GRUPOS, index=idx_resp, key="grupo_principal"
+        options=GRUPOS,
+        index=idx_resp,
+        key="grupo_principal"
     )
+
+    defaults_comp = [
+        g for g in ["Cardiovascular", "Infeccioso/Parasitário"]
+        if g != grupo_sel and g in GRUPOS
+    ]
     grupos_comp = st.multiselect(
         "Comparar com",
         options=[g for g in GRUPOS if g != grupo_sel],
-        default=["Cardiovascular","Infeccioso/Parasitário"],
+        default=defaults_comp,
         key="grupos_comp"
     )
+
     st.markdown("---")
     excluir_covid = st.checkbox("Excluir 2020 da tendência", value=True)
     excluir_2026  = st.checkbox("Excluir 2026 (incompleto)", value=True)
